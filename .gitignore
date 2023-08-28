@@ -1,0 +1,8 @@
+# vsocde
+.vscode/
+
+# macos
+**/.DS_Store
+
+# deno
+server/deno.lock
