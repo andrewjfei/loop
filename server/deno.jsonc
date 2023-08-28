@@ -1,5 +1,8 @@
 {
   "tasks": {
-    "dev": "deno run --watch src/main.js"
+    "up": "docker compose -p loop up -d",
+    "down": "docker compose -p loop down",
+    "start": "deno run --watch --allow-env --allow-read --allow-net src/main.js",
+    "dev": "deno task down && deno task up && sleep 1 && deno task start"
   }
 }

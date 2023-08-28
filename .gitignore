@@ -6,3 +6,6 @@
 
 # deno
 server/deno.lock
+
+# environment variables
+.env

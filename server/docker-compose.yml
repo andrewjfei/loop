@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  # the postgres:15-alpine image by default uses port 5432
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: ${POSTGRESQL_DB}
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+    volumes:
+      - ./resources/scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - ${POSTGRESQL_PORT}:5432 # map local machine port to container port
