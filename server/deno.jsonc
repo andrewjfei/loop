@@ -1,8 +1,9 @@
 {
-  "tasks": {
-    "up": "docker compose -p loop up -d",
-    "down": "docker compose -p loop down",
-    "start": "deno run --watch --allow-env --allow-read --allow-net src/main.js",
-    "dev": "deno task down && deno task up && sleep 1 && deno task start"
-  }
+    "tasks": {
+        "fmt": "deno fmt --indent-width 4 --no-semicolons=false --use-tabs=false --single-quote=false",
+        "up": "docker compose -p loop up -d",
+        "down": "docker compose -p loop down",
+        "start": "deno run --watch --allow-env --allow-read --allow-net src/main.js",
+        "dev": "deno task down && deno task up && sleep 1 && deno task start"
+    }
 }

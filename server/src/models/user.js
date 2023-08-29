@@ -8,7 +8,16 @@ class User {
     lastUpdated;
     deleted;
 
-    constructor(id, username, firstName, lastName, email, created, lastUpdated, deleted) {
+    constructor(
+        id,
+        username,
+        firstName,
+        lastName,
+        email,
+        created,
+        lastUpdated,
+        deleted,
+    ) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
