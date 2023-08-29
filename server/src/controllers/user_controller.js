@@ -1,7 +1,15 @@
+import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { UserService } from "../services/mod.js";
+import { ObjectMapperUtil } from "../utils/mod.js";
+import { DataResponse } from "../models/responses/data_response.js";
 
-function addUser({ request, response }) {
-	response.body = UserService.addUser();
+async function addUser({ request, response }) {
+    const addUserRequest = await ObjectMapperUtil.toAddUserRequest(request);
+    console.log(`currently processing ${addUserRequest}`);
+
+    const newUser = await UserService.addUser(addUserRequest);
+	response.body = new DataResponse(newUser);
+    response.status = Status.Created;
 }
 
 function fetchAllUsers({ request, response }) {

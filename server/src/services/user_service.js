@@ -1,7 +1,14 @@
 import { UserRepository } from "../repositories/mod.js";
 
-function addUser() {
-	return UserRepository.createUser();
+async function addUser(request) {
+    const { username, firstName, lastName, email, password } = request;
+
+    // todo: validate username and email
+
+    // todo: encrypt password
+    const encryptedPassword = password;
+
+    return await UserRepository.createUser(username, firstName, lastName, email, encryptedPassword);
 }
 
 function fetchAllUsers() {
