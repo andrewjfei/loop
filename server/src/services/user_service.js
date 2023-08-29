@@ -2,7 +2,7 @@ import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { ErrorCode } from "../enums/mod.js";
 import { LOOPServerError } from "../errors/loop_server_error.js";
 import { UserRepository } from "../repositories/mod.js";
-import { CommonUtil } from "../utils/mod.js";
+import { CommonUtil, CryptographyUtil } from "../utils/mod.js";
 
 async function addUser(request) {
     const { username, firstName, lastName, email, password } = request;
@@ -13,8 +13,8 @@ async function addUser(request) {
     // validate email
     await validateEmail(email);
 
-    // todo: encrypt password
-    const encryptedPassword = password;
+    // encrypt password
+    const encryptedPassword = await CryptographyUtil.encrypt(password);
 
     return await UserRepository.createUser(
         username,
