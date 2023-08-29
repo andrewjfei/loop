@@ -33,4 +33,10 @@ function toUser(userRow) {
     );
 }
 
-export { toAddUserRequest, toUser };
+function toUserArray(userRows) {
+    return userRows.map((userRow) => {
+        return toUser(userRow);
+    });
+}
+
+export { toAddUserRequest, toUser, toUserArray };

@@ -25,8 +25,8 @@ async function addUser(request) {
     );
 }
 
-function fetchAllUsers() {
-    return UserRepository.retrieveAllUsers();
+async function fetchAllUsers() {
+    return await UserRepository.retrieveAllUsers();
 }
 
 function fetchSingleUser() {

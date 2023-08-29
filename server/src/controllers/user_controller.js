@@ -13,8 +13,10 @@ async function addUser({ request, response }) {
     response.status = Status.Created;
 }
 
-function fetchAllUsers({ request, response }) {
-    response.body = UserService.fetchAllUsers();
+async function fetchAllUsers({ _request, response }) {
+    const allUsers = await UserService.fetchAllUsers();
+    response.body = new DataResponse(allUsers);
+    response.status = Status.OK;
 }
 
 function fetchSingleUser({ request, response }) {

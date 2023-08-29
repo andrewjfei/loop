@@ -32,9 +32,21 @@ async function createUser(
     }
 }
 
-function retrieveAllUsers() {
-    const str = "Retrieved All Users Successfully";
-    return str;
+async function retrieveAllUsers() {
+    try {
+        const result = await DatabaseConfig.client.queryObject({
+            camelcase: true,
+            text: QueryConstant.RETRIEVE_ALL_USERS_QUERY,
+        });
+
+        return ObjectMapperUtil.toUserArray(result.rows);
+    } catch (err) {
+        throw new LOOPServerError(
+            Status.InternalServerError,
+            ErrorCode.POSTGRESQL_ERROR_CODE,
+            "Failed to retrieve all users in PostgreSQL database.",
+        );
+    }
 }
 
 function retrieveSingleUser() {
