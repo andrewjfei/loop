@@ -29,8 +29,18 @@ async function fetchAllUsers() {
     return await UserRepository.retrieveAllUsers();
 }
 
-function fetchSingleUser() {
-    return UserRepository.retrieveSingleUser();
+async function fetchSingleUser(id) {
+    const user = await UserRepository.retrieveSingleUser(id);
+
+    if (!CommonUtil.isPresent(user)) {
+        throw new LOOPServerError(
+            Status.BadRequest,
+            ErrorCode.BAD_PARAMETER_ERROR_CODE,
+            `User with id '${id}' does not exist.`,
+        );
+    }
+
+    return user;
 }
 
 function modifyUser() {
@@ -47,7 +57,7 @@ async function validateUsername(username) {
     if (CommonUtil.isPresent(user)) {
         throw new LOOPServerError(
             Status.BadRequest,
-            ErrorCode.UNAVAILABLE_ERROR_CODE,
+            ErrorCode.BAD_PARAMETER_ERROR_CODE,
             `User with username '${username}' already exists.`,
         );
     }
@@ -59,7 +69,7 @@ async function validateEmail(email) {
     if (CommonUtil.isPresent(user)) {
         throw new LOOPServerError(
             Status.BadRequest,
-            ErrorCode.UNAVAILABLE_ERROR_CODE,
+            ErrorCode.BAD_PARAMETER_ERROR_CODE,
             `User with email '${email}' already exists.`,
         );
     }

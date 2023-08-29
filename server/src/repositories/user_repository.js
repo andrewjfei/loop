@@ -49,9 +49,32 @@ async function retrieveAllUsers() {
     }
 }
 
-function retrieveSingleUser() {
-    const str = "Retrieved Single User Successfully";
-    return str;
+async function retrieveSingleUser(id) {
+    try {
+        const result = await DatabaseConfig.client.queryObject({
+            camelcase: true,
+            args: { id },
+            text: QueryConstant.RETRIEVE_SINGLE_USER_QUERY,
+        });
+
+        const rows = result.rows;
+
+        if (rows.length < 1) {
+            return null;
+        } else if (rows.length > 1) {
+            console.error(
+                `multiple users returned for unique id '${id}'`,
+            );
+        }
+
+        return ObjectMapperUtil.toUser(rows[0]);
+    } catch (err) {
+        throw new LOOPServerError(
+            Status.InternalServerError,
+            ErrorCode.POSTGRESQL_ERROR_CODE,
+            "Failed to retrieve single user in PostgreSQL database.",
+        );
+    }
 }
 
 async function retrieveUserByUsername(username) {

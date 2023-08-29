@@ -13,14 +13,18 @@ async function addUser({ request, response }) {
     response.status = Status.Created;
 }
 
-async function fetchAllUsers({ _request, response }) {
+async function fetchAllUsers({ response }) {
     const allUsers = await UserService.fetchAllUsers();
     response.body = new DataResponse(allUsers);
     response.status = Status.OK;
 }
 
-function fetchSingleUser({ request, response }) {
-    response.body = UserService.fetchSingleUser();
+async function fetchSingleUser({ response, params }) {
+    const userId = params.userId;
+
+    const user = await UserService.fetchSingleUser(userId);
+    response.body = new DataResponse(user);
+    response.status = Status.OK;
 }
 
 function modifyUser({ request, response }) {
