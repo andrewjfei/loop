@@ -17,8 +17,18 @@ async function fetchAllVenues() {
     return await VenueRepository.retrieveAllVenues();
 }
 
-function fetchSingleVenue() {
-    return VenueRepository.retrieveSingleVenue();
+async function fetchSingleVenue(id) {
+    const venue = await VenueRepository.retrieveSingleVenue(id);
+
+    if (!CommonUtil.isPresent(venue)) {
+        throw new LOOPServerError(
+            Status.BadRequest,
+            ErrorCode.BAD_PARAMETER_ERROR_CODE,
+            `Venue with id '${id}' does not exist.`,
+        );
+    }
+
+    return venue;
 }
 
 function modifyVenue() {

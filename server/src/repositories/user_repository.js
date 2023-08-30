@@ -72,7 +72,7 @@ async function retrieveSingleUser(id) {
         throw new LOOPServerError(
             Status.InternalServerError,
             ErrorCode.POSTGRESQL_ERROR_CODE,
-            "Failed to retrieve single user in PostgreSQL database.",
+            `Failed to retrieve user with id '${id}' in PostgreSQL database.`,
         );
     }
 }
@@ -101,7 +101,7 @@ async function retrieveUserByUsername(username) {
         throw new LOOPServerError(
             Status.InternalServerError,
             ErrorCode.POSTGRESQL_ERROR_CODE,
-            "Failed to retrieve user by username in PostgreSQL database.",
+            `Failed to retrieve user with usernam '${username}' in PostgreSQL database.`,
         );
     }
 }
@@ -130,7 +130,7 @@ async function retrieveUserByEmail(email) {
         throw new LOOPServerError(
             Status.InternalServerError,
             ErrorCode.POSTGRESQL_ERROR_CODE,
-            "Failed to retrieve user by email in PostgreSQL database.",
+            `Failed to retrieve user with email '${email}' in PostgreSQL database.`,
         );
     }
 }

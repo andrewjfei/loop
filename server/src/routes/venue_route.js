@@ -6,7 +6,7 @@ const venueRouter = new Router();
 venueRouter.post("/", VenueController.addVenue);
 venueRouter.get("/", VenueController.fetchAllVenues);
 venueRouter.get("/:venueId", VenueController.fetchSingleVenue);
-venueRouter.patch("/:venueId", VenueController.modifyVenue);
+venueRouter.put("/:venueId", VenueController.modifyVenue);
 venueRouter.delete("/:venueId", VenueController.removeVenue);
 
 export { venueRouter };

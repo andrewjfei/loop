@@ -6,7 +6,7 @@ const userRouter = new Router();
 userRouter.post("/", UserController.addUser);
 userRouter.get("/", UserController.fetchAllUsers);
 userRouter.get("/:userId", UserController.fetchSingleUser);
-userRouter.patch("/:userId", UserController.modifyUser);
+userRouter.put("/:userId", UserController.modifyUser);
 userRouter.delete("/:userId", UserController.removeUser);
 
 export { userRouter };

@@ -19,7 +19,7 @@ async function fetchAllUsers({ response }) {
     response.status = Status.OK;
 }
 
-async function fetchSingleUser({ response, params }) {
+async function fetchSingleUser({ params, response }) {
     const userId = params.userId;
 
     const user = await UserService.fetchSingleUser(userId);

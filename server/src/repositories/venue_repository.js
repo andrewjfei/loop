@@ -53,9 +53,32 @@ async function retrieveAllVenues() {
     }
 }
 
-function retrieveSingleVenue() {
-    const str = "Retrieved Single Venue Successfully";
-    return str;
+async function retrieveSingleVenue(id) {
+    try {
+        const result = await DatabaseConfig.client.queryObject({
+            camelcase: true,
+            args: { id },
+            text: QueryConstant.RETRIEVE_SINGLE_VENUE_QUERY,
+        });
+
+        const rows = result.rows;
+
+        if (rows.length < 1) {
+            return null;
+        } else if (rows.length > 1) {
+            console.error(
+                `multiple venues returned for unique id '${id}'`,
+            );
+        }
+
+        return ObjectMapperUtil.toVenue(rows[0]);
+    } catch (_err) {
+        throw new LOOPServerError(
+            Status.InternalServerError,
+            ErrorCode.POSTGRESQL_ERROR_CODE,
+            `Failed to retrieve venue with id '${id}' in PostgreSQL database.`,
+        );
+    }
 }
 
 function updateVenue() {

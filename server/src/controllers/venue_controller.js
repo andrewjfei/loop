@@ -19,8 +19,12 @@ async function fetchAllVenues({ response }) {
     response.status = Status.OK;
 }
 
-function fetchSingleVenue({ _request, response }) {
-    response.body = VenueService.fetchSingleVenue();
+async function fetchSingleVenue({ params, response }) {
+    const venueId = params.venueId;
+
+    const venue = await VenueService.fetchSingleVenue(venueId);
+    response.body = new DataResponse(venue);
+    response.status = Status.OK;
 }
 
 function modifyVenue({ _request, response }) {

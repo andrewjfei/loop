@@ -8,10 +8,10 @@ async function handleError({ response }, next) {
         if (err instanceof LOOPServerError) {
             response.status = err.status;
             response.body = new ErrorResponse(err.code, err.message);
+        } else {
+            // todo: handle non loop server error case
+            console.error(err);
         }
-
-        // todo: handle non loop server error case
-        console.error(err);
     }
 }
 
