@@ -2,7 +2,7 @@ import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { DatabaseConfig } from "../configs/mod.js";
 import { QueryConstant } from "../constants/mod.js";
 import { ErrorCode } from "../enums/mod.js";
-import { LOOPServerError } from "../errors/loop_server_error.js";
+import { LOOPServerError } from "../errors/mod.js";
 import { ObjectMapperUtil } from "../utils/mod.js";
 
 async function createUser(
@@ -22,7 +22,7 @@ async function createUser(
 
         console.log("successfully created user in postgresql");
         return ObjectMapperUtil.toUser(result.rows[0]);
-    } catch (err) {
+    } catch (_err) {
         console.log("failed to create user in postgresql");
         throw new LOOPServerError(
             Status.InternalServerError,
@@ -40,7 +40,7 @@ async function retrieveAllUsers() {
         });
 
         return ObjectMapperUtil.toUserArray(result.rows);
-    } catch (err) {
+    } catch (_err) {
         throw new LOOPServerError(
             Status.InternalServerError,
             ErrorCode.POSTGRESQL_ERROR_CODE,
@@ -68,7 +68,7 @@ async function retrieveSingleUser(id) {
         }
 
         return ObjectMapperUtil.toUser(rows[0]);
-    } catch (err) {
+    } catch (_err) {
         throw new LOOPServerError(
             Status.InternalServerError,
             ErrorCode.POSTGRESQL_ERROR_CODE,
@@ -96,7 +96,7 @@ async function retrieveUserByUsername(username) {
         }
 
         return ObjectMapperUtil.toUser(rows[0]);
-    } catch (err) {
+    } catch (_err) {
         console.log("failed to retrieve user by username in postgresql");
         throw new LOOPServerError(
             Status.InternalServerError,
@@ -125,7 +125,7 @@ async function retrieveUserByEmail(email) {
         }
 
         return ObjectMapperUtil.toUser(rows[0]);
-    } catch (err) {
+    } catch (_err) {
         console.log("failed to retrieve user by email in postgresql");
         throw new LOOPServerError(
             Status.InternalServerError,

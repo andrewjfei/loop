@@ -4,7 +4,7 @@ import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 try {
     // load envrionment variables from .env file
     await load({ export: true });
-} catch (err) {
+} catch (_err) {
     console.error("failed to load .env file");
 }
 

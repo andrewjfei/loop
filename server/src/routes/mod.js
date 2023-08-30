@@ -4,7 +4,7 @@ import { venueRouter } from "./venue_route.js";
 
 const rootRouter = new Router();
 
-rootRouter.get("/hello-world", ({ request, response }) => {
+rootRouter.get("/hello-world", ({ _request, response }) => {
     response.body = "Hello World!";
 });
 

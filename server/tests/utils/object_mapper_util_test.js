@@ -1,4 +1,7 @@
-import { assert, assertEquals } from "https://deno.land/std@0.200.0/testing/asserts.ts";
+import {
+    assert,
+    assertEquals,
+} from "https://deno.land/std@0.200.0/testing/asserts.ts";
 import { ObjectMapperUtil } from "../../src/utils/mod.js";
 import { AddUserRequest } from "../../src/models/requests/add_user_request.js";
 

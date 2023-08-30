@@ -6,6 +6,10 @@
 - Require `.env` file
 - Require Docker
 
+### Running Locally
+
+### Testing
+
 ## Configuration
 
 ## APIs

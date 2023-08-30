@@ -1,6 +1,6 @@
 import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { ErrorCode } from "../enums/mod.js";
-import { LOOPServerError } from "../errors/loop_server_error.js";
+import { LOOPServerError } from "../errors/mod.js";
 import { UserRepository } from "../repositories/mod.js";
 import { CommonUtil, CryptographyUtil } from "../utils/mod.js";
 
@@ -50,6 +50,8 @@ function modifyUser() {
 function removeUser() {
     return UserRepository.deleteUser();
 }
+
+// helper functions
 
 async function validateUsername(username) {
     const user = await UserRepository.retrieveUserByUsername(username);

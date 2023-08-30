@@ -1,7 +1,7 @@
 import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { UserService } from "../services/mod.js";
 import { ObjectMapperUtil } from "../utils/mod.js";
-import { DataResponse } from "../models/responses/data_response.js";
+import { DataResponse } from "../models/responses/mod.js";
 
 async function addUser({ request, response }) {
     const payload = await request.body().value;
@@ -27,11 +27,11 @@ async function fetchSingleUser({ response, params }) {
     response.status = Status.OK;
 }
 
-function modifyUser({ request, response }) {
+function modifyUser({ _request, response }) {
     response.body = UserService.modifyUser();
 }
 
-function removeUser({ request, response }) {
+function removeUser({ _request, response }) {
     response.body = UserService.removeUser();
 }
 

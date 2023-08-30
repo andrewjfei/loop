@@ -2,4 +2,8 @@ function isPresent(object) {
     return object !== undefined && object !== null;
 }
 
-export { isPresent };
+function isUndefined(object) {
+    return object === undefined;
+}
+
+export { isPresent, isUndefined };
