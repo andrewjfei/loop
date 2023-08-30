@@ -13,8 +13,8 @@ async function addVenue(request) {
     return await VenueRepository.createVenue(name, description, type);
 }
 
-function fetchAllVenues() {
-    return VenueRepository.retrieveAllVenues();
+async function fetchAllVenues() {
+    return await VenueRepository.retrieveAllVenues();
 }
 
 function fetchSingleVenue() {

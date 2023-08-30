@@ -83,6 +83,12 @@ function toVenue(venueRow) {
     );
 }
 
+function toVenueArray(venueRows) {
+    return venueRows.map((venueRow) => {
+        return toVenue(venueRow);
+    });
+}
+
 // helper functions
 
 function throwMissingPropertyError(prop) {
@@ -93,4 +99,4 @@ function throwMissingPropertyError(prop) {
     );
 }
 
-export { toAddUserRequest, toAddVenueRequest, toUser, toUserArray, toVenue };
+export { toAddUserRequest, toAddVenueRequest, toUser, toUserArray, toVenue, toVenueArray };

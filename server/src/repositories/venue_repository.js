@@ -36,9 +36,21 @@ async function createVenue(name, description, type) {
     }
 }
 
-function retrieveAllVenues() {
-    const str = "Retrieved All Venues Successfully";
-    return str;
+async function retrieveAllVenues() {
+    try {
+        const result = await DatabaseConfig.client.queryObject({
+            camelcase: true,
+            text: QueryConstant.RETRIEVE_ALL_VENUES_QUERY,
+        });
+
+        return ObjectMapperUtil.toVenueArray(result.rows);
+    } catch (_err) {
+        throw new LOOPServerError(
+            Status.InternalServerError,
+            ErrorCode.POSTGRESQL_ERROR_CODE,
+            "Failed to retrieve all venues in PostgreSQL database.",
+        );
+    }
 }
 
 function retrieveSingleVenue() {

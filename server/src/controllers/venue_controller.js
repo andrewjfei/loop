@@ -13,8 +13,10 @@ async function addVenue({ request, response }) {
     response.status = Status.Created;
 }
 
-function fetchAllVenues({ _request, response }) {
-    response.body = VenueService.fetchAllVenues();
+async function fetchAllVenues({ response }) {
+    const allVenues = await VenueService.fetchAllVenues();
+    response.body = new DataResponse(allVenues);
+    response.status = Status.OK;
 }
 
 function fetchSingleVenue({ _request, response }) {
