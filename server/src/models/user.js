@@ -5,8 +5,6 @@ class User {
     lastName;
     email;
     created;
-    lastUpdated;
-    deleted;
 
     constructor(
         id,
@@ -15,8 +13,6 @@ class User {
         lastName,
         email,
         created,
-        lastUpdated,
-        deleted,
     ) {
         this.id = id;
         this.username = username;
@@ -24,8 +20,6 @@ class User {
         this.lastName = lastName;
         this.email = email;
         this.created = created;
-        this.lastUpdated = lastUpdated;
-        this.deleted = deleted;
     }
 }
 

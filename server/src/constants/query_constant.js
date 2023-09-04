@@ -19,7 +19,27 @@ const RETRIEVE_ALL_VENUES_QUERY =
 const RETRIEVE_SINGLE_VENUE_QUERY =
     `SELECT * FROM "venue" as v WHERE v.id = $id`;
 
+// event queries
+const CREATE_EVENT_QUERY =
+    `INSERT INTO "event" (name, description, type, cost, recurrence_period, reminder_period, start_date, start_time, duration, end_date) VALUES ($name, $description, $type, $cost, $recurrencePeriod, $reminderPeriod, $startDate, $startTime, $duration, $endDate) RETURNING id, name, description, type, cost, country_code, recurrence_period, reminder_period, CAST(start_date AS TEXT), start_time, duration, CAST(end_date AS TEXT)`;
+
+// event has venue queries
+const CREATE_EVENT_HAS_VENUE_QUERY =
+    `INSERT INTO "event_has_venue" (event_id, venue_id) VALUES ($eventId, $venueId) RETURNING *`;
+
+// pass queries
+const CREATE_PASS_QUERY =
+    `INSERT INTO "pass" (event_id, start_timestamp, end_timestamp) VALUES ($eventId, $startTimestamp, $endTimestamp) RETURNING *`;
+
+// pass has venue queries
+const CREATE_PASS_HAS_VENUE_QUERY =
+    `INSERT INTO "pass_has_venue" (pass_id, venue_id) VALUES ($passId, $venueId) RETURNING *`;
+
 export {
+    CREATE_EVENT_HAS_VENUE_QUERY,
+    CREATE_EVENT_QUERY,
+    CREATE_PASS_HAS_VENUE_QUERY,
+    CREATE_PASS_QUERY,
     CREATE_USER_QUERY,
     CREATE_VENUE_QUERY,
     CREATE_VENUE_WITH_TYPE_QUERY,

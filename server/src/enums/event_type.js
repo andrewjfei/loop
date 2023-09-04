@@ -1,0 +1,4 @@
+const GROUP = "GROUP";
+const INDIVIDUAL = "INDIVIDUAL";
+
+export { GROUP, INDIVIDUAL };

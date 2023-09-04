@@ -34,19 +34,20 @@ CREATE TABLE IF NOT EXISTS "venue" (
     PRIMARY KEY (id)
 );
 
--- create venue type enum
-CREATE TYPE PASS_TYPE AS ENUM ('GROUP', 'CLUB', 'EVENT', 'OTHER');
+-- create event type enum
+CREATE TYPE EVENT_TYPE AS ENUM ('GROUP', 'INDIVIDUAL');
 
 -- create period enum
 CREATE TYPE PERIOD AS ENUM ('1_MONTH', '1_WEEK', '1_DAY', 'NONE');
 
--- create pass info table
-CREATE TABLE IF NOT EXISTS "pass_info" (
+-- create event table
+CREATE TABLE IF NOT EXISTS "event" (
     id                  UUID                DEFAULT		        uuid_generate_v4(),
     name                VARCHAR(30)         NOT NULL,
     description         VARCHAR(255),
-    type                PASS_TYPE           NOT NULL            DEFAULT                     'OTHER',
+    type                EVENT_TYPE          NOT NULL            DEFAULT                     'INDIVIDUAL',
     cost                DECIMAL(6, 2)       NOT NULL            DEFAULT                     0.00,
+    country_code        COUNTRY_CODE        NOT NULL            DEFAULT                     'NZ',   
     recurrence_period   PERIOD              NOT NULL            DEFAULT                     'NONE',
     reminder_period     PERIOD              NOT NULL            DEFAULT                     'NONE',
     start_date          DATE                NOT NULL,
@@ -59,19 +60,19 @@ CREATE TABLE IF NOT EXISTS "pass_info" (
     PRIMARY KEY (id)
 );
 
--- create pass info has venue table (i.e. venues which can join the pass)
-CREATE TABLE IF NOT EXISTS "pass_info_has_venue" (
-    pass_info_id    UUID            NOT NULL        REFERENCES "pass_info"(id),
+-- create event has venue table (i.e. venues which can join the pass)
+CREATE TABLE IF NOT EXISTS "event_has_venue" (
+    event_id        UUID            NOT NULL        REFERENCES "event"(id),
     venue_id        UUID            NOT NULL        REFERENCES "venue"(id),
     created         TIMESTAMP       NOT NULL        DEFAULT         		        CURRENT_TIMESTAMP,
     deleted         TIMESTAMP,
-    PRIMARY KEY (pass_info_id, venue_id)
+    PRIMARY KEY (event_id, venue_id)
 );
 
 -- create pass table
 CREATE TABLE IF NOT EXISTS "pass" (
     id                  UUID            DEFAULT	    uuid_generate_v4(),
-    pass_info_id        UUID            NOT NULL    REFERENCES "pass_info"(id),
+    event_id            UUID            NOT NULL    REFERENCES "event"(id),
     start_timestamp     TIMESTAMP       NOT NULL,
     end_timestamp       TIMESTAMP       NOT NULL,
     created             TIMESTAMP       NOT NULL    DEFAULT         		        CURRENT_TIMESTAMP,
@@ -119,15 +120,15 @@ INSERT INTO "venue" (id, name, description, type) VALUES
 ('de9ef0b0-6036-4493-9ee2-1be7461e75f0', 'Underground', 'Underground Description.', 'CLUB'),
 ('75e54882-06a1-469d-9b6d-5f3a9192a0c2', 'Gen Z', 'Gen Z Description.', 'CLUB');
 
--- insert default pass info records
-INSERT INTO "pass_info" (id, name, type, cost, recurrence_period, reminder_period, start_date, start_time, duration, end_date) VALUES
+-- insert default event records
+INSERT INTO "event" (id, name, type, cost, recurrence_period, reminder_period, start_date, start_time, duration, end_date) VALUES
 ('0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', 'Golden Glow', 'GROUP', 10.00, '1_WEEK', '1_WEEK', '2023-08-28', '20:00:00', '08:00:00', '2034-09-13'),
 ('a3b838e6-e5ba-4287-98aa-4fafc9066441', 'Prehistoric Times', 'GROUP', 15.00, 'NONE', 'NONE', '2023-08-30', '18:00:00', '10:00:00', '2023-08-30'),
-('317659cb-496d-4258-977f-1edf9ff6cfd5', 'Dirty Dancing', 'EVENT', 20.00, 'NONE', 'NONE', '2023-09-05', '20:00:00', '06:00:00', '2023-09-05'),
-('4cddcfef-2e48-43d9-98ee-269b95d79875', 'Basic', 'CLUB', 20.00, '1_DAY', 'NONE', '2023-09-05', '20:00:00', '08:00:00', NULL);
+('317659cb-496d-4258-977f-1edf9ff6cfd5', 'Dirty Dancing', 'INDIVIDUAL', 20.00, 'NONE', 'NONE', '2023-09-05', '20:00:00', '06:00:00', '2023-09-05'),
+('4cddcfef-2e48-43d9-98ee-269b95d79875', 'Basic', 'INDIVIDUAL', 20.00, '1_DAY', 'NONE', '2023-09-05', '20:00:00', '08:00:00', NULL);
 
--- insert default pass info has venue records
-INSERT INTO "pass_info_has_venue" (pass_info_id, venue_id) VALUES
+-- insert default event has venue records
+INSERT INTO "event_has_venue" (event_id, venue_id) VALUES
 ('0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', '9bc3a68a-30ce-4ed6-b49b-031e8246df22'),
 ('0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', 'c44b2dfe-b97f-4614-8508-43b80e1b7ee2'),
 ('a3b838e6-e5ba-4287-98aa-4fafc9066441', 'e8c3c1e6-1fed-4d46-9f56-4385e9075ecf'),
@@ -138,7 +139,7 @@ INSERT INTO "pass_info_has_venue" (pass_info_id, venue_id) VALUES
 ('4cddcfef-2e48-43d9-98ee-269b95d79875', '75e54882-06a1-469d-9b6d-5f3a9192a0c2');
 
 -- insert default pass records
-INSERT INTO "pass" (id, pass_info_id, start_timestamp, end_timestamp) VALUES
+INSERT INTO "pass" (id, event_id, start_timestamp, end_timestamp) VALUES
 ('d6dcc8f9-2a28-42a1-90f8-f1317007311d', '0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', '2023-08-28 20:00:00', '2023-08-29 04:00:00'),
 ('394c5783-66ea-40f2-a787-3f06f62e546b', '0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', '2023-09-04 20:00:00', '2023-09-05 04:00:00'),
 ('1851ceb1-cbcf-4729-a86d-34a0ca4b8cc5', '0e75069e-f99a-4c12-bed0-ab08fbf7dbe0', '2023-09-11 20:00:00', '2023-09-12 04:00:00'),

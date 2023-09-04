@@ -1,4 +1,4 @@
-import { assert } from "https://deno.land/std@0.200.0/testing/asserts.ts";
+import { assert } from "https://deno.land/std@0.201.0/assert/mod.ts";
 import { CommonUtil } from "../../src/utils/mod.js";
 
 Deno.test("test isPresent with number should return true", () => {

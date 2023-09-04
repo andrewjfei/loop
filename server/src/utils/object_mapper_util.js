@@ -1,9 +1,12 @@
 import { Status } from "https://deno.land/x/oak@v12.6.0/mod.ts";
 import { ErrorCode } from "../enums/mod.js";
 import { LOOPServerError } from "../errors/mod.js";
-import { AddVenueRequest } from "../models/requests/mod.js";
-import { AddUserRequest } from "../models/requests/mod.js";
-import { User, Venue } from "../models/mod.js";
+import {
+    AddEventRequest,
+    AddUserRequest,
+    AddVenueRequest,
+} from "../models/requests/mod.js";
+import { Event, Pass, User, Venue } from "../models/mod.js";
 import { CommonUtil } from "./mod.js";
 
 function toAddUserRequest(payload) {
@@ -22,8 +25,6 @@ function toUser(userRow) {
         lastName,
         email,
         created,
-        lastUpdated,
-        deleted,
     } = userRow;
 
     return new User(
@@ -33,8 +34,6 @@ function toUser(userRow) {
         lastName,
         email,
         created,
-        lastUpdated,
-        deleted,
     );
 }
 
@@ -67,8 +66,6 @@ function toVenue(venueRow) {
         type,
         countryCode,
         created,
-        lastUpdated,
-        deleted,
     } = venueRow;
 
     return new Venue(
@@ -78,8 +75,6 @@ function toVenue(venueRow) {
         type,
         countryCode,
         created,
-        lastUpdated,
-        deleted,
     );
 }
 
@@ -87,6 +82,133 @@ function toVenueArray(venueRows) {
     return venueRows.map((venueRow) => {
         return toVenue(venueRow);
     });
+}
+
+function toAddEventRequest(payload) {
+    const {
+        name,
+        description,
+        type,
+        cost,
+        recurrencePeriod,
+        reminderPeriod,
+        startDate,
+        startTime,
+        duration,
+        endDate,
+        venues,
+    } = payload;
+
+    // validate if non null or non default properties are available
+    if (CommonUtil.isUndefined(name)) {
+        throwMissingPropertyError("name");
+    }
+
+    if (CommonUtil.isUndefined(type)) {
+        throwMissingPropertyError("type");
+    }
+
+    if (CommonUtil.isUndefined(cost)) {
+        throwMissingPropertyError("cost");
+    }
+
+    if (CommonUtil.isUndefined(recurrencePeriod)) {
+        throwMissingPropertyError("recurrencePeriod");
+    }
+
+    if (CommonUtil.isUndefined(reminderPeriod)) {
+        throwMissingPropertyError("reminderPeriod");
+    }
+
+    if (CommonUtil.isUndefined(startDate)) {
+        throwMissingPropertyError("startDate");
+    }
+
+    if (CommonUtil.isUndefined(startTime)) {
+        throwMissingPropertyError("startTime");
+    }
+
+    if (CommonUtil.isUndefined(duration)) {
+        throwMissingPropertyError("duration");
+    }
+
+    return new AddEventRequest(
+        name,
+        description,
+        type,
+        cost,
+        recurrencePeriod,
+        reminderPeriod,
+        startDate,
+        startTime,
+        duration,
+        endDate,
+        venues,
+    );
+}
+
+function toEvent(eventRow, venues = [], passes = []) {
+    const {
+        id,
+        name,
+        description,
+        type,
+        cost,
+        countryCode,
+        recurrencePeriod,
+        reminderPeriod,
+        startDate,
+        startTime,
+        duration,
+        endDate,
+        created,
+    } = eventRow;
+
+    return new Event(
+        id,
+        name,
+        description,
+        type,
+        cost,
+        countryCode,
+        recurrencePeriod,
+        reminderPeriod,
+        startDate,
+        startTime,
+        duration,
+        endDate,
+        created,
+        venues,
+        passes,
+    );
+}
+
+function toPass(event, passRow, venues = []) {
+    const {
+        name,
+        description,
+        type,
+        cost,
+    } = event;
+
+    const {
+        id,
+        startTimestamp,
+        endTimestamp,
+        created,
+    } = passRow;
+
+    return new Pass(
+        id,
+        name,
+        description,
+        type,
+        cost * venues.length,
+        startTimestamp,
+        endTimestamp,
+        created,
+        venues,
+    );
 }
 
 // helper functions
@@ -99,4 +221,14 @@ function throwMissingPropertyError(prop) {
     );
 }
 
-export { toAddUserRequest, toAddVenueRequest, toUser, toUserArray, toVenue, toVenueArray };
+export {
+    toAddEventRequest,
+    toAddUserRequest,
+    toAddVenueRequest,
+    toEvent,
+    toPass,
+    toUser,
+    toUserArray,
+    toVenue,
+    toVenueArray,
+};

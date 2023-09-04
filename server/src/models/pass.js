@@ -1,26 +1,35 @@
-class Venue {
+class Pass {
     id;
     name;
     description;
     type;
-    countryCode;
+    cost;
+    startTimestamp;
+    endTimestamp;
     created;
+    venues;
 
     constructor(
         id,
         name,
         description,
         type,
-        countryCode,
+        cost,
+        startTimestamp,
+        endTimestamp,
         created,
+        venues,
     ) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.type = type;
-        this.countryCode = countryCode;
+        this.cost = cost;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
         this.created = created;
+        this.venues = venues;
     }
 }
 
-export { Venue };
+export { Pass };
