@@ -2,6 +2,7 @@ class Venue {
     id;
     name;
     description;
+    capacity;
     type;
     countryCode;
     created;
@@ -10,6 +11,7 @@ class Venue {
         id,
         name,
         description,
+        capacity,
         type,
         countryCode,
         created,
@@ -17,6 +19,7 @@ class Venue {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.capacity = capacity;
         this.type = type;
         this.countryCode = countryCode;
         this.created = created;

@@ -44,7 +44,7 @@ function toUserArray(userRows) {
 }
 
 function toAddVenueRequest(payload) {
-    const { name, description, type } = payload;
+    const { name, description, capacity, type } = payload;
 
     // validate if all properties are available
     if (CommonUtil.isUndefined(name)) {
@@ -55,7 +55,15 @@ function toAddVenueRequest(payload) {
         throwMissingPropertyError("description");
     }
 
-    return new AddVenueRequest(name, description, type);
+    if (CommonUtil.isUndefined(capacity)) {
+        throwMissingPropertyError("capacity")
+    }
+
+    if (CommonUtil.isUndefined(type)) {
+        throwMissingPropertyError("type")
+    }
+
+    return new AddVenueRequest(name, description, capacity, type);
 }
 
 function toVenue(venueRow) {
@@ -63,6 +71,7 @@ function toVenue(venueRow) {
         id,
         name,
         description,
+        capacity,
         type,
         countryCode,
         created,
@@ -72,6 +81,7 @@ function toVenue(venueRow) {
         id,
         name,
         description,
+        capacity,
         type,
         countryCode,
         created,

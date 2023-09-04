@@ -5,12 +5,12 @@ import { VenueRepository } from "../repositories/mod.js";
 import { CommonUtil } from "../utils/mod.js";
 
 async function addVenue(request) {
-    const { name, description, type } = request;
+    const { name, description, capacity, type } = request;
 
     // validate type
     validateType(type);
 
-    return await VenueRepository.createVenue(name, description, type);
+    return await VenueRepository.createVenue(name, description, capacity, type);
 }
 
 async function fetchAllVenues() {
@@ -42,8 +42,7 @@ function removeVenue() {
 // helper functions
 
 function validateType(type) {
-    // undefined type will resolve to default venue type
-    if (CommonUtil.isUndefined(type) || VenueType[type]) {
+    if (VenueType[type]) {
         return;
     }
 

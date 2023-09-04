@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS "venue" (
     id              UUID            DEFAULT			    uuid_generate_v4(),
     name            VARCHAR(30)     NOT NULL,
     description     VARCHAR(255)    NOT NULL,
+    capacity        INT             NOT NULL            DEFAULT                 0,
     type            VENUE_TYPE      NOT NULL            DEFAULT                 'OTHER',
     country_code    COUNTRY_CODE    NOT NULL            DEFAULT                 'NZ',
     created         TIMESTAMP       NOT NULL            DEFAULT         		CURRENT_TIMESTAMP,
@@ -110,15 +111,15 @@ INSERT INTO "user" (id, username, first_name, last_name, email, password) VALUES
 ('137ea589-57b0-433a-9430-964b1298894d', 'samchen', 'Sam', 'Chen', 'samchen@loop.nz', 'password');
 
 -- insert default venue records
-INSERT INTO "venue" (id, name, description, type) VALUES
-('9bc3a68a-30ce-4ed6-b49b-031e8246df22', 'King Club', 'King Club Description.', 'CLUB'),
-('c44b2dfe-b97f-4614-8508-43b80e1b7ee2', 'Empire', 'Empire Description.', 'CLUB'),
-('dda516ea-bb3d-4c96-b518-3ba10ce24f67', 'Club 101', 'Club 101 Description.', 'CLUB'),
-('e8c3c1e6-1fed-4d46-9f56-4385e9075ecf', 'Concave', 'Concave Description.', 'CLUB'),
-('54743ac9-bf3d-4ee4-9d5e-b117fdc2e7d7', 'Amazon', 'Amazon Description.', 'CLUB'),
-('4b6c651c-3740-4eed-b6a8-e8ec5c09850c', 'Dimension', 'Dimension Description.', 'CLUB'),
-('de9ef0b0-6036-4493-9ee2-1be7461e75f0', 'Underground', 'Underground Description.', 'CLUB'),
-('75e54882-06a1-469d-9b6d-5f3a9192a0c2', 'Gen Z', 'Gen Z Description.', 'CLUB');
+INSERT INTO "venue" (id, name, description, capacity, type) VALUES
+('9bc3a68a-30ce-4ed6-b49b-031e8246df22', 'King Club', 'King Club Description.', 100, 'CLUB'),
+('c44b2dfe-b97f-4614-8508-43b80e1b7ee2', 'Empire', 'Empire Description.', 150, 'CLUB'),
+('dda516ea-bb3d-4c96-b518-3ba10ce24f67', 'Club 101', 'Club 101 Description.', 200, 'CLUB'),
+('e8c3c1e6-1fed-4d46-9f56-4385e9075ecf', 'Concave', 'Concave Description.', 125, 'CLUB'),
+('54743ac9-bf3d-4ee4-9d5e-b117fdc2e7d7', 'Amazon', 'Amazon Description.', 175, 'CLUB'),
+('4b6c651c-3740-4eed-b6a8-e8ec5c09850c', 'Dimension', 'Dimension Description.', 100, 'CLUB'),
+('de9ef0b0-6036-4493-9ee2-1be7461e75f0', 'Underground', 'Underground Description.', 150, 'CLUB'),
+('75e54882-06a1-469d-9b6d-5f3a9192a0c2', 'Gen Z', 'Gen Z Description.', 125, 'CLUB');
 
 -- insert default event records
 INSERT INTO "event" (id, name, type, cost, recurrence_period, reminder_period, start_date, start_time, duration, end_date) VALUES
